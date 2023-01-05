@@ -16,8 +16,6 @@ public class Words {
 
         Scanner inputStream = null;
 
-        System.out.println(filePath);
-
         try {
             inputStream = new Scanner(new File(filePath));
         } catch (FileNotFoundException e) {
