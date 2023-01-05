@@ -21,7 +21,6 @@ public class Commands {
 
         char guess = sc.next().charAt(0);
 
-//        return Character.toLowerCase(guess);
         return Character.toLowerCase(guess);
     }
 }

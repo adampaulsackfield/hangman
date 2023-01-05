@@ -67,10 +67,29 @@ public class Game {
     }
 
     private void nextMove() {
-        System.out.println(answer);
+        if (isSolved()) {
+            System.out.println("Winner");
+            System.out.println(answer);
+            System.exit(0);
+        } else {
+            System.out.println(answer);
+            Character guess = commands.takeGuess();
 
-        Character guess = commands.takeGuess();
+            takeTurn(guess);
+        }
 
-        takeTurn(guess);
+
+    }
+
+    private boolean isSolved() {
+        int count = 0;
+
+        for (int i = 0; i < answer.length; i++) {
+            if (answer[i] == '_') {
+                count++;
+            }
+        }
+
+        return count == 0;
     }
 }
