@@ -3,15 +3,18 @@ package com.hangman.game;
 import com.hangman.Words;
 import com.hangman.user.Commands;
 
+import java.util.Arrays;
+
 
 public class Game {
     private int lives = 8;
 
-    private String word;
+    private String word; // sausage
 
-    private char[] answer;
+    private char[] answer; // _______
     private final Commands commands = new Commands();
 
+    private final Logger logger = new Logger();
 
     public void init() {
         Words words = new Words();
@@ -20,19 +23,16 @@ public class Game {
     }
 
     public void startGame() {
-        System.out.println("Game started!");
+        logger.printMessage("Game started");
 
-        System.out.println("Random Word is: " + word);
-
-        System.out.println("Word: ");
         String blockedAnswer = "_".repeat(word.length());
 
         answer = blockedAnswer.toCharArray();
 
-        System.out.println(answer);
-
         commands.namePrompt();
-        System.out.println("Welcome: " + commands.getName());
+
+        logger.printMessage("Welcome: " + commands.getName());
+
         nextMove();
     }
 
@@ -47,8 +47,8 @@ public class Game {
         }
 
         if (count == 0) {
-            System.out.println("Sorry there are no '" + letter + "'s'. You have " + lives + " lives remaining.");
             lives--;
+            logger.printMessage("Sorry there are no '" + letter + "'s'. You have " + lives + " lives remaining.");
             if (lives == 0) {
                 gameOver();
             } else {
@@ -62,17 +62,18 @@ public class Game {
     }
 
     private void gameOver() {
-        System.out.println("Game Over!");
+        logger.printMessage("Game Over!");
+        logger.printMessage("The word was " + word);
         System.exit(0);
     }
 
     private void nextMove() {
         if (isSolved()) {
-            System.out.println("Winner");
-            System.out.println(answer);
+            logger.printMessage("Winner");
+            logger.printMessage(Arrays.toString(answer));
             System.exit(0);
         } else {
-            System.out.println(answer);
+            logger.printMessage(Arrays.toString(answer));
             Character guess = commands.takeGuess();
 
             takeTurn(guess);
@@ -84,8 +85,8 @@ public class Game {
     private boolean isSolved() {
         int count = 0;
 
-        for (int i = 0; i < answer.length; i++) {
-            if (answer[i] == '_') {
+        for (char c : answer) {
+            if (c == '_') {
                 count++;
             }
         }
