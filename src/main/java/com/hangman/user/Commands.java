@@ -2,15 +2,12 @@ package com.hangman.user;
 
 import com.hangman.game.Logger;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Commands {
     private String name;
 
-    private ArrayList<Character> guesses = new ArrayList<>();
-
-    private Logger logger = new Logger();
+    private final Logger logger = new Logger();
 
     private final Scanner sc = new Scanner(System.in);
 
@@ -23,24 +20,24 @@ public class Commands {
         return name;
     }
 
-    public char takeGuess() {
+    public char guessPrompt() {
         logger.printMessage("Choose a letter?");
 
         char guess = sc.next().charAt(0);
 
-        for (char c : guesses) {
-
-            System.out.println(guess);
-            System.out.println(c);
-
-            if (c == guess) {
-                logger.printMessage("You have already tried the letter " + guess);
-                takeGuess();
-                return 'c';
-            }
-            System.out.println(guesses);
-        }
         return Character.toLowerCase(guess);
+    }
 
+    public boolean playAgain() {
+        logger.printMessage("Would you like to play another game?");
+
+        char answer = sc.next().charAt(0);
+
+        if (answer != 'y' && answer != 'n') {
+            logger.printMessage("y or n");
+            playAgain();
+        }
+
+        return answer == 'y';
     }
 }

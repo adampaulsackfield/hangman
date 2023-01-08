@@ -3,52 +3,79 @@ package com.hangman.game;
 import com.hangman.Words;
 import com.hangman.user.Commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
-
 public class Game {
-    private int lives = 8;
-
-    private String word; // sausage
-
-    private char[] answer; // _______
     private final Commands commands = new Commands();
-
     private final Logger logger = new Logger();
+    private int lives = 8;
+    private String word; // hello
+    private char[] answer; // Current state of the guessed word. // _____
+    private final ArrayList<Character> guesses = new ArrayList<>(); // ArrayList for tracking guesses
+    private final Drawer drawer = new Drawer();
+    private final Words words = new Words();
 
+    // Initialise the word list, drawer class, and start the game.
     public void init() {
-        Words words = new Words();
-
         word = words.getWord();
+
+        drawer.init();
+
+        startGame();
     }
 
-    public void startGame() {
-        logger.printMessage("Game started");
+    // Method for starting a new game, gets a new word and resets all state.
+    private void newGame() {
+        guesses.clear();
 
-        String blockedAnswer = "_".repeat(word.length());
+        lives = 8;
 
-        answer = blockedAnswer.toCharArray();
+        word = words.getWord();
 
-        commands.namePrompt();
+        logger.printMessage("New game started");
 
-        logger.printMessage("Welcome: " + commands.getName());
+        answer = "_".repeat(word.length()).toCharArray();
+
 
         nextMove();
     }
 
-    public void takeTurn(Character letter) {
-        int count = 0;
+    // Starts the game, by prompting the user for a name.
+    public void startGame() {
+        logger.printMessage("Game started");
 
-        for (int i = 0; i < word.length(); i++) {
-            if (word.charAt(i) == letter) {
-                answer[i] = letter;
-                count++;
+        answer = "_".repeat(word.length()).toCharArray();
+
+        commands.namePrompt();
+
+        logger.printMessage("Welcome: " + commands.getName() + " let's play hangman");
+
+        nextMove();
+    }
+
+    // The main logic for the Game lives here.
+    private void takeTurn(Character letter) {
+
+        // Check if the letter given has already been tried. If it has then we log a message and call nextMove()
+        for (char c : guesses) {
+            if (letter == c) {
+                logger.printMessage("You have already said the letter: " + letter);
+                nextMove();
             }
         }
 
-        if (count == 0) {
+        // Add the current guess to the guesses list
+        guesses.add(letter);
+
+        // Check for any matches
+        boolean foundMatches = checkMatches(letter); // If this is still 0 after comparing against the word, then the user never found a letter
+
+        // If not matches, decrement the lives, print message with new lives count. Else, nextMove()
+        if (!foundMatches) {
             lives--;
             logger.printMessage("Sorry there are no '" + letter + "'s'. You have " + lives + " lives remaining.");
+            logger.printMessage(drawer.draw(lives));
             if (lives == 0) {
                 gameOver();
             } else {
@@ -64,22 +91,34 @@ public class Game {
     private void gameOver() {
         logger.printMessage("Game Over!");
         logger.printMessage("The word was " + word);
-        System.exit(0);
+
+        if (commands.playAgain()) {
+            newGame();
+        } else {
+            logger.printMessage("Thanks for playing " + commands.getName());
+            System.exit(0);
+        }
     }
 
     private void nextMove() {
+        String solution = Arrays.toString(answer).replaceAll("\\[", "").replaceAll("]", "").replaceAll(",", "").replaceAll(" ", "");
+
         if (isSolved()) {
-            logger.printMessage("Winner");
-            logger.printMessage(Arrays.toString(answer));
-            System.exit(0);
+            logger.printMessage("Winner, well done " + commands.getName() + "! You found the word " + "'" + solution + "'" + " with " + lives + " lives remaining.");
+
+            if (commands.playAgain()) {
+                newGame();
+            } else {
+                logger.printMessage("Thanks for playing " + commands.getName());
+                System.exit(0);
+            }
         } else {
-            logger.printMessage(Arrays.toString(answer));
-            Character guess = commands.takeGuess();
+            logger.printMessage("Word: " + solution);
+            logger.printMessage("Previous guesses: " + guesses);
+            Character guess = commands.guessPrompt();
 
             takeTurn(guess);
         }
-
-
     }
 
     private boolean isSolved() {
@@ -92,5 +131,18 @@ public class Game {
         }
 
         return count == 0;
+    }
+
+    private boolean checkMatches(char letter) {
+        int count = 0;
+
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == letter) {
+                answer[i] = letter;
+                count++;
+            }
+        }
+
+        return count != 0;
     }
 }
