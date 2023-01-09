@@ -9,18 +9,19 @@ import java.util.Arrays;
 public class Game {
     private final Commands commands = new Commands();
     private final Logger logger = new Logger();
+    private final Words words = new Words();
     private int lives = 8;
     private String word; // hello
     private char[] answer; // Current state of the guessed word. // _____
-    private final ArrayList<Character> guesses = new ArrayList<>(); // ArrayList for tracking guesses
-    private final Drawer drawer = new Drawer();
-    private final Words words = new Words();
 
-    // Initialise the word list, drawer class, and start the game.
+    private final ArrayList<Character> guesses = new ArrayList<>(); // ArrayList for tracking guesses
+    
+
+    // Initialise the word list, logger class, and start the game.
     public void init() {
         word = words.getWord();
 
-        drawer.init();
+        logger.init();
 
         startGame();
     }
@@ -37,12 +38,11 @@ public class Game {
 
         answer = "_".repeat(word.length()).toCharArray();
 
-
         nextMove();
     }
 
     // Starts the game, by prompting the user for a name.
-    public void startGame() {
+    private void startGame() {
         logger.printMessage("Game started");
 
         answer = "_".repeat(word.length()).toCharArray();
@@ -75,7 +75,7 @@ public class Game {
         if (!foundMatches) {
             lives--;
             logger.printMessage("Sorry there are no '" + letter + "'s'. You have " + lives + " lives remaining.");
-            logger.printMessage(drawer.draw(lives));
+            logger.printMessage(logger.draw(lives));
             if (lives == 0) {
                 gameOver();
             } else {

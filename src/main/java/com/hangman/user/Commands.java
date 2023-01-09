@@ -6,9 +6,7 @@ import java.util.Scanner;
 
 public class Commands {
     private String name;
-
     private final Logger logger = new Logger();
-
     private final Scanner sc = new Scanner(System.in);
 
     public void namePrompt() {
@@ -20,12 +18,26 @@ public class Commands {
         return name;
     }
 
+    // Credit: Constantin and Walter for assisting with validation of inputs.
     public char guessPrompt() {
         logger.printMessage("Choose a letter?");
 
-        char guess = sc.next().charAt(0);
+        if(sc.hasNext()){
+            String guess = sc.next();
+            if(guess.length()==1 && guess.matches("^[A-Za-z]$")){
+                return Character.toLowerCase(guess.charAt(0));
+            } else{
+                logger.printMessage("We only accept single chars around here.");
 
-        return Character.toLowerCase(guess);
+                return guessPrompt();
+            }
+
+        } else {
+            logger.printMessage("We only accept single chars around here.");
+            sc.next();
+
+            return guessPrompt();
+        }
     }
 
     public boolean playAgain() {
