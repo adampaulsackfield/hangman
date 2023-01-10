@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38ffbe58-dee4-4d3b-9365-88d802a6545d" name="Changes" comment="complete game">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hangman/game/Drawer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hangman/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hangman/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hangman/game/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hangman/game/Logger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/hangman/user/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hangman/user/Commands.java" afterDir="false" />
-    </list>
+    <list default="true" id="38ffbe58-dee4-4d3b-9365-88d802a6545d" name="Changes" comment="added validation for user inputs" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,7 +97,7 @@
       <workItem from="1673261423845" duration="675000" />
       <workItem from="1673263715806" duration="269000" />
       <workItem from="1673273629163" duration="1423000" />
-      <workItem from="1673275854167" duration="3001000" />
+      <workItem from="1673275854167" duration="3271000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1672927950642</created>
@@ -148,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673212390096</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added validation for user inputs">
+      <created>1673279124658</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1673279124658</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -178,6 +178,7 @@
     <MESSAGE value="game can be won and lost" />
     <MESSAGE value="add logger for outputting to the user" />
     <MESSAGE value="complete game" />
-    <option name="LAST_COMMIT_MESSAGE" value="complete game" />
+    <MESSAGE value="added validation for user inputs" />
+    <option name="LAST_COMMIT_MESSAGE" value="added validation for user inputs" />
   </component>
 </project>
